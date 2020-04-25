@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Chapters (<%= @chapters.count %>)</h1>
+<form action="/" method="get">
+<div>
+  <label for="search">Search</label>
+  <input type="text" id="search" name="search">
+  <button>Search</button>
+</div>
+</form>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @chapters.each do |chapter| %>
+      <tr>
+        <% if @term.nil? %>
+          <td><%= chapter.title %></td>
+        <% else %>
+          <td><%= chapter.title.gsub(/#{Regexp.quote(@term)}/i, "<span style='background-color:yellow;'>#{@term}</span>").html_safe %></td>
+        <% end %>
+        <% if @term.nil? %>
+          <td><%= chapter.content %></td>
+        <% else %>
+          <td><%= chapter.content.gsub(/#{Regexp.quote(@term)}/i, "<span style='background-color:yellow;'>#{@term}</span>").html_safe %></td>
+        <% end %>
+        <td><%= link_to 'Show', chapter %></td>
+        <td><%= link_to 'Edit', edit_chapter_path(chapter) %></td>
+        <td><%= link_to 'Destroy', chapter, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Chapter', new_chapter_path %>
